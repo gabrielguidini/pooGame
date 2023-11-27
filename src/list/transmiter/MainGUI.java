@@ -4,20 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 public class MainGUI extends JFrame {
     private Timer timer;
-    private static final int INITIAL_TIME = 0;
-    private int remainingTime = INITIAL_TIME;
+    private int remainingTime;
     private JFrame frame;
     private JTextField tfWord,tfList, tfTimer;
     private JButton btEnter, btStart;
     private JLabel lbWords, lbTimer;
     private List<String> words = new ArrayList<>();
+    private ListCreator listCreator = new ListCreator();
 
-    public MainGUI()  {
+    public MainGUI() throws FileNotFoundException {
+        listCreator.creatingList();
         componentInitializer();
         definingEvents();
     }
@@ -30,6 +34,7 @@ public class MainGUI extends JFrame {
         //setting input textfield
         tfWord = new JTextField(5);
         tfWord.setBounds(100,10,120,27);
+        tfWord.setEditable(false);
         btEnter = new JButton("Enviar");
         btEnter.setBounds(225,10,80,27);
 
@@ -37,7 +42,7 @@ public class MainGUI extends JFrame {
         lbTimer = new JLabel("Tempo Restante:");
         lbTimer.setBounds(300,35,150,27);
         tfTimer = new JTextField();
-        tfTimer.setBounds(335,55,40,30);
+        tfTimer.setBounds(335,55,55,30);
         btStart = new JButton("Começar");
         btStart.setBounds(300,90,100,27);
 
@@ -47,7 +52,6 @@ public class MainGUI extends JFrame {
         lbWords.setBounds(100,35,150,27);
         tfList = new JTextField(1);
         tfList.setBounds(100,55,150,200);
-        tfList.setText("bomba");
         tfList.setEditable(false);
 
         //adding into jframe
@@ -67,27 +71,29 @@ public class MainGUI extends JFrame {
             tfWord.setText("");
         };
         btEnter.addActionListener(actionListener);
+
         Action enterAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 actionListener.actionPerformed(e);
             }
         };
+
         tfWord.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "enterAction");
+
         tfWord.getActionMap().put("enterAction", enterAction);
 
+        btStart.addActionListener(e -> {
 
-        btStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfTimer.setEditable(false);
-                timer = new Timer(1000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        updateTimer();
-                    }
-                });
-            }
+            remainingTime = parseInt(tfTimer.getText());
+
+            tfTimer.setEditable(false);
+
+            tfWord.setEditable(true);
+
+            timer = new Timer(1000, e1 -> updateTimer());
+
+            timer.start();
         });
     }
 
@@ -98,6 +104,10 @@ public class MainGUI extends JFrame {
             tfTimer.setText(getFormattedTime(remainingTime));
         } else {
             timer.stop();
+            StringBuilder displayText = new StringBuilder();
+            for(String e : listCreator.verifyList(words)) {
+                tfList.setText(String.valueOf(displayText.append(e).append("\n,")));
+            }
             lbTimer.setText("Tempo acabou");
         }
     }
@@ -105,15 +115,13 @@ public class MainGUI extends JFrame {
     private String getFormattedTime(int seconds) {
         int minutes = seconds / 60;
         int secs = seconds % 60;
+
         //formating the numbers
         return String.format("%02d:%02d", minutes, secs);
     }
 
-    public List<String> listSender() {
-        return words;
-    }
 
-    public void open() {
+    public void open() throws FileNotFoundException {
         frame = new MainGUI();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();

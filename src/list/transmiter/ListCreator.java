@@ -15,7 +15,7 @@ public class ListCreator {
     public ListCreator() throws FileNotFoundException {
     }
 
-    public List<String> listCreator() {
+    public List<String> creatingList() {
         while(sc.hasNext()){
             wordList.add(sc.nextLine());
             for (String e: wordList) {
@@ -28,9 +28,25 @@ public class ListCreator {
                 break;
             }
         }
-
-        System.out.println(correctList + "\n"+ correctList.size());
+        System.out.println(correctList);
         return correctList;
+
+    }
+
+    public List<String> verifyList(List<String> verifiedList){
+        char firstLetter = verifiedList.get(0).charAt(0);
+        System.out.println(firstLetter);
+        for (String str : verifiedList) {
+            if(firstLetter == str.charAt(0)) {
+                if(correctList.contains(str)) {
+                    System.out.println("mantem esta bomba");
+                }
+            } else {
+                verifiedList.remove(str);
+            }
+        }
+
+        return verifiedList;
     }
 
 }
