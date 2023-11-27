@@ -34,7 +34,6 @@ public class GameCreator {
                 }else{
                     System.out.println("Acabou o tempo!!");
                     timer.cancel();
-                    System.exit(1);
                 }
             }
         },1000,1000);
@@ -42,7 +41,11 @@ public class GameCreator {
     }
 
     public List<String> verifyWords(List<String> allWords, List<String> wordsWritten){
-
+        for (String e: allWords) {
+            if(e.charAt(0) == wordsWritten.get(0).charAt(0)){
+                verifiedWords.add(e);
+            }
+        }
 
         return verifiedWords;
     }

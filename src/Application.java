@@ -1,5 +1,7 @@
 import list.transmiter.GameCreator;
+import list.transmiter.GameGUI;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
