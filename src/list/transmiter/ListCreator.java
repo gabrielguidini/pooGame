@@ -30,6 +30,7 @@ public class ListCreator {
         }
 
         System.out.println(correctList + "\n"+ correctList.size());
-        return wordList;
+        return correctList;
     }
+
 }

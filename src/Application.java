@@ -1,17 +1,17 @@
+import list.transmiter.ListConverter;
 import list.transmiter.ListCreator;
 import list.transmiter.MainGUI;
 
 import javax.swing.*;
 import java.io.FileNotFoundException;
-import java.util.List;
 
 public class Application {
+    private static final MainGUI frame = new MainGUI();
+    private static final ListConverter listConverter = new ListConverter();;
+
     public static void main(String[] args) throws FileNotFoundException {
-        ListCreator list = new ListCreator();
-        List<String>  wordList = list.listCreator().stream().toList();
-        SwingUtilities.invokeLater(() -> {
-            MainGUI frame = new MainGUI();
-            frame.open();
-        });
+        ListCreator listCreator = new ListCreator();
+//        listConverter.verifyList(frame.listSender(),listCreator.listCreator());
+        SwingUtilities.invokeLater(frame::open);
     }
 }
