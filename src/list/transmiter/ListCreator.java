@@ -12,10 +12,9 @@ public class ListCreator {
     private final List<String> wordList= new ArrayList<>();
     private final List<String> correctList = new ArrayList<>();
 
-    public ListCreator() throws FileNotFoundException {
-    }
+    public ListCreator() throws FileNotFoundException {}
 
-    public List<String> creatingList() {
+    public void creatingList() {
         while(sc.hasNext()){
             wordList.add(sc.nextLine());
         }
@@ -24,33 +23,48 @@ public class ListCreator {
                 correctList.add(e);
             }
         }
-
-        return correctList;
     }
 
-    public List<String> verifyList(List<String> listToVerify){
+    public List<String> verifyCorrectWords(List<String> listToVerify){
         List<String> verifiedList = new ArrayList<>();
+
         char firstLetter = listToVerify.get(0).charAt(0);
+
         for (String str : listToVerify) {
+
             if(firstLetter == str.charAt(0)) {
+
                 if(correctList.contains(str)) {
+
                     if(!verifiedList.contains(str)){
+
                         verifiedList.add(str);
+
                     }
+
                 }
+
             }
+
         }
-        System.out.println(verifiedList);
+
         return verifiedList;
     }
 
     public List<String> verifyWrongWords(List<String> listToVerify) {
+
         List<String> verifiedList = new ArrayList<>();
+
         for (String str : listToVerify){
+
             if(!wordList.contains(str)){
+
                 verifiedList.add(str);
+
             }
+
         }
+
         return verifiedList;
     }
 
