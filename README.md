@@ -36,6 +36,6 @@ classDiagram
         + creatingList() List
     }
 
-    ListCreator --> MainGUI
-    MainGUI --> Application
+    MainGUI --> ListCreator
+    Application --> MainGUI
 ```
