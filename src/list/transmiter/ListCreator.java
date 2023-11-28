@@ -18,34 +18,39 @@ public class ListCreator {
     public List<String> creatingList() {
         while(sc.hasNext()){
             wordList.add(sc.nextLine());
-            for (String e: wordList) {
-                if(e.length()>=4){
-                    correctList.add(e);
-                }
-            }
-
-            if(correctList.size()>10){
-                break;
+        }
+        for (String e: wordList) {
+            if(e.length()>=4){
+                correctList.add(e);
             }
         }
-        System.out.println(correctList);
-        return correctList;
 
+        return correctList;
     }
 
-    public List<String> verifyList(List<String> verifiedList){
-        char firstLetter = verifiedList.get(0).charAt(0);
-        System.out.println(firstLetter);
-        for (String str : verifiedList) {
+    public List<String> verifyList(List<String> listToVerify){
+        List<String> verifiedList = new ArrayList<>();
+        char firstLetter = listToVerify.get(0).charAt(0);
+        for (String str : listToVerify) {
             if(firstLetter == str.charAt(0)) {
                 if(correctList.contains(str)) {
-                    System.out.println("mantem esta bomba");
+                    if(!verifiedList.contains(str)){
+                        verifiedList.add(str);
+                    }
                 }
-            } else {
-                verifiedList.remove(str);
             }
         }
+        System.out.println(verifiedList);
+        return verifiedList;
+    }
 
+    public List<String> verifyWrongWords(List<String> listToVerify) {
+        List<String> verifiedList = new ArrayList<>();
+        for (String str : listToVerify){
+            if(!wordList.contains(str)){
+                verifiedList.add(str);
+            }
+        }
         return verifiedList;
     }
 

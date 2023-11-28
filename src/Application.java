@@ -1,4 +1,3 @@
-import list.transmiter.ListCreator;
 import list.transmiter.MainGUI;
 
 import javax.swing.*;
@@ -15,7 +14,7 @@ public class Application {
         }
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
                 frame.open();
@@ -23,7 +22,5 @@ public class Application {
                 throw new RuntimeException(e);
             }
         });
-        ListCreator listCreator = new ListCreator();
-//        listConverter.verifyList(frame.listSender(),listCreator.listCreator());
     }
 }

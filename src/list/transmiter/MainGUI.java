@@ -14,11 +14,12 @@ public class MainGUI extends JFrame {
     private Timer timer;
     private int remainingTime;
     private JFrame frame;
-    private JTextField tfWord,tfList, tfTimer;
+    private JTextField tfWord, tfTimer;
+    private JTextArea taList,taWrongWords;
     private JButton btEnter, btStart;
-    private JLabel lbWords, lbTimer;
-    private List<String> words = new ArrayList<>();
-    private ListCreator listCreator = new ListCreator();
+    private JLabel lbWords, lbTimer, lbWord, lbWrongWords;
+    private final List<String> words = new ArrayList<>();
+    private final ListCreator listCreator = new ListCreator();
 
     public MainGUI() throws FileNotFoundException {
         listCreator.creatingList();
@@ -32,36 +33,45 @@ public class MainGUI extends JFrame {
         setLayout(null);
 
         //setting input textfield
+        lbWord = new JLabel("Envie sua palavra aqui:");
+        lbWord.setBounds(100,5,175,30);
         tfWord = new JTextField(5);
-        tfWord.setBounds(100,10,120,27);
+        tfWord.setBounds(100,30,120,27);
         tfWord.setEditable(false);
         btEnter = new JButton("Enviar");
-        btEnter.setBounds(225,10,80,27);
+        btEnter.setBounds(225,30,80,27);
 
         //setting up timmer and start button
         lbTimer = new JLabel("Tempo Restante:");
-        lbTimer.setBounds(300,35,150,27);
+        lbTimer.setBounds(315,5,200,27);
         tfTimer = new JTextField();
-        tfTimer.setBounds(335,55,55,30);
+        tfTimer.setBounds(315,30,55,28);
         btStart = new JButton("Começar");
-        btStart.setBounds(300,90,100,27);
+        btStart.setBounds(375,30,95,27);
 
 
-        //setting textfield and the labeling it
-        lbWords = new JLabel("Palavras corretas: ");
-        lbWords.setBounds(100,35,150,27);
-        tfList = new JTextField(1);
-        tfList.setBounds(100,55,150,200);
-        tfList.setEditable(false);
+        //setting textarea and the labeling it
+        lbWords = new JLabel("Palavras corretas:");
+        lbWords.setBounds(100,55,140,27);
+        taList = new JTextArea();
+        taList.setBounds(100,75,130,150);
+        taList.setEditable(false);
+        lbWrongWords = new JLabel("Palavras erradas:");
+        lbWrongWords.setBounds(250,55,140,27);
+        taWrongWords = new JTextArea();
+        taWrongWords.setBounds(250,75,130,150);
 
         //adding into jframe
+        add(lbWrongWords);
+        add(taWrongWords);
         add(btStart);
         add(tfTimer);
         add(lbTimer);
-        add(tfList);
+        add(taList);
         add(tfWord);
         add(btEnter);
         add(lbWords);
+        add(lbWord);
     }
 
     public void definingEvents(){
@@ -103,12 +113,21 @@ public class MainGUI extends JFrame {
         if (remainingTime >= 0) {
             tfTimer.setText(getFormattedTime(remainingTime));
         } else {
+
             timer.stop();
+
             StringBuilder displayText = new StringBuilder();
-            for(String e : listCreator.verifyList(words)) {
-                tfList.setText(String.valueOf(displayText.append(e).append("\n,")));
+
+            for(String str : listCreator.verifyList(words)) {
+                taList.setText(String.valueOf(displayText.append(str).append("\n")));
             }
-            lbTimer.setText("Tempo acabou");
+
+            StringBuilder displayTextWrong = new StringBuilder();
+
+            for (String str: listCreator.verifyWrongWords(words)) {
+                taWrongWords.setText(String.valueOf(displayTextWrong.append(str).append("\n")));
+            }
+            lbTimer.setText("TEMPO ACABOU!!!!!!!");
         }
     }
 
