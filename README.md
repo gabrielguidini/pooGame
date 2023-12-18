@@ -1,4 +1,6 @@
-# pooGame
+## pooGame
+- just a simple word game using java swing as UX.
+
 ```mermaid
 classDiagram
     class Application{
